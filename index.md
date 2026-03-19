@@ -39,9 +39,11 @@ a review from a user on a specific recipe. The columns it includes are:
 | `rating` | Rating given |
 | `review` | Review text |
 
-To explore the relationship between time investment for a recipe and the rating the columns that are most relevant are `minutes`: The total number of minutes required to prepare the meal, serving as our primary measure of "cooking time". Also we created a new column `mean_rating` which is the mean rating of every unique recipes, because most of the recipes have multiple ratings.
+To explore the relationship between time investment for a recipe and the rating the columns that are most relevant are `minutes`: The total number of minutes required to prepare the meal, serving as our primary measure of "cooking time" and `n_steps`: The number of steps in a recipe, which provides additional context on the complexity and effort required. Also we created a new column `mean_rating` which is the mean rating of every unique recipes, because most of the recipes have multiple ratings. I also created a column called, `time_category` which categorizes recipes depending on the time it takes to prepare the recipe: '0-15', '16-30', '31-60', '61-120', '120+'. 
 
 ## Data Cleaning and Exploratory Data Analysis
+
+
 
 ## Assessment of Missingness
 
