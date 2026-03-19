@@ -43,6 +43,21 @@ To explore the relationship between time investment for a recipe and the rating 
 
 ## Data Cleaning and Exploratory Data Analysis
 
+To prepare the Food.com dataset for an investigation into cooking times and ratings, I performed several key cleaning steps to ensure the data was accurate and usable:
+Merged Recipes and Ratings: I performed a left merge of the recipes dataset with the ratings dataset
+1. This ensures that every recipe is kept in the final DataFrame, even those that have not yet received a rating, which is crucial for maintaining an unbiased look at all available cooking options.
+
+3. Handled "Zero" Ratings: I replaced all ratings of 0 with np.nan. Users can leave a review without a star rating, which the system records as a 0. Since the actual scale is 1–5, these 0s do not represent "zero stars" but rather missing data. Treating them as NaN prevents them from artificially dragging down the average ratings of recipes
+
+4. Calculated Average Ratings: I calculated the mean and median rating for each unique recipe and merged these back into the main dataset. This allows me to analyze each recipe’s overall "quality" as a single data point.
+   
+6. Extracted Nutrition Data: The nutrition column originally contained strings that looked like lists (e.g., "[150.2, 5.0, ...]"). I processed these strings into individual numerical columns: calories, total_fat, sugar, sodium, protein, saturated_fat, and carbohydrates.
+
+7. Removed Outliers: I filtered out the top 1% of entries for minutes and all nutrition columns. In a real-world setting, recipes claiming to take thousands of minutes or containing impossible amounts of sugar are likely data entry errors that would skew the results of the "average" quick meal.
+
+
+**Pivot Table**
+'|    | time_category   |   mean_rating |   median_rating |   avg_calories |   count |\n|---:|:----------------|--------------:|----------------:|---------------:|--------:|\n|  0 | 0-15            |          4.71 |            4.91 |         301.62 |   48435 |\n|  1 | 16-30           |          4.68 |            4.86 |         369.7  |   58155 |\n|  2 | 31-60           |          4.67 |            4.86 |         432.15 |   69381 |\n|  3 | 61-120          |          4.68 |            4.89 |         564.28 |   31818 |\n|  4 | 120+            |          4.62 |            4.8  |         547.6  |   23872 |'
 
 
 ## Assessment of Missingness
