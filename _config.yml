@@ -2,7 +2,7 @@ theme: minima
 
 title: "Investigating Cooking Time and Recipe Ratings"
 description: "A DSC 80 data science project"
-author: "Your Name"
+author: "Vanessa Marroquin-Guzman"
 
 minima:
   skin: classic
