@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: home
 ---
 
 # Investigating the Relationship Between Cooking Time and Recipe Ratings
@@ -8,9 +8,9 @@ This website explores the relationship between cooking time and the mean recipe 
 
 ## Introduction
 
-Welcome to the Final Project, the final assignment of the quarter! 👋
+In today’s fast-paced world, time is our most valuable asset. With the convenience of eating out and food delivery services just a tap away, the traditional act of home cooking often feels like a luxury we can't afford. In such a busy and stressful environment, our bodies need high-quality fuel to keep us going, yet we frequently find ourselves choosing between a long, complex recipe and the ease of a quick meal. This often raises a dilemma: are we able to create short efficient meals that are just as good as the ones that take hours to make? In this project we will be exploring the relationship between cooking time and recipe's rating to determine if efficiency in the kitchen comes at the cost of a quality meal.
 
-This project aims to be a culmination of everything you've learned this quarter. In the project, you will conduct an open-ended investigation into one of three datasets: Recipes and Ratings 🍽, League of Legends ⌨️, or Power Outages 🔋. **Specifically, you'll draw several visualizations to help understand the distributions of key variables, assess the missingness mechanisms of columns with missing values, test hypotheses about the data, and finally, build and improve a predictive model.** This project will be entirely manually graded by us – that's right, no autograders!
+The Dataset is from Food.com 
 
 ## Data Cleaning and Exploratory Data Analysis
 
