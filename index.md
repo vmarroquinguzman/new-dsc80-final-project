@@ -56,8 +56,15 @@ To prepare the Food.com dataset for an investigation into cooking times and rati
 5. Removed Outliers: I filtered out the top 1% of entries for minutes and all nutrition columns. In a real-world setting, recipes claiming to take thousands of minutes or containing impossible amounts of sugar are likely data entry errors that would skew the results of the "average" quick meal.
 
 
-**Pivot Table**
-'| time_category   |   mean_rating |   median_rating |   avg_calories |   count |\n|:----------------|--------------:|----------------:|---------------:|--------:|\n| 0-15            |          4.71 |            4.91 |         301.62 |   48435 |\n| 16-30           |          4.68 |            4.86 |         369.7  |   58155 |\n| 31-60           |          4.67 |            4.86 |         432.15 |   69381 |\n| 61-120          |          4.68 |            4.89 |         564.28 |   31818 |\n| 120+            |          4.62 |            4.8  |         547.6  |   23872 |'
+**Pivot Table**: The pivot table below shows the average rating, median rating, average calories, and count of recipies for each time category. Several interesting patterns I noticed was for shorter recipes (0 - 15 minutes) tend to receive higher ratings mean rating (4.71) while the longest recipes (120+ minutes) receive the lowest rating (4.62). This suggest a slight negative relationship between cooking time and rating. Secondly, average calories steadly increase with cooking time, this makes sense because longer recipes tend to be more elaborate meal. Finally, the 31-60 minute category contains the most recipes (69,381), shaped like an asymmetric bell curve. This indicates that the most common cooking time range is between (31-60) on Food.com.
+
+| time_category   |   mean_rating |   median_rating |   avg_calories |   count |
+|:----------------|--------------:|----------------:|---------------:|--------:|
+| 0-15            |          4.71 |            4.91 |         301.62 |   48435 |
+| 16-30           |          4.68 |            4.86 |         369.7  |   58155 |
+| 31-60           |          4.67 |            4.86 |         432.15 |   69381 |
+| 61-120          |          4.68 |            4.89 |         564.28 |   31818 |
+| 120+            |          4.62 |            4.8  |         547.6  |   23872 |
 
 
 
