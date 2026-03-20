@@ -9,7 +9,7 @@ layout: home
   <p style="font-size: 1.2em; color: gray;">
     Does spending more time in the kitchen actually result in better food?
   </p>
-  <img src="[https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=900](https://media.istockphoto.com/id/1266248987/photo/home-taco-party-with-tortillas-tomato-salsa-and-peoples-hands.jpg?s=612x612&w=0&k=20&c=91O90mRePfaosNffZvBbS37-RP3hU2xg29nDAM_959A=)" 
+  <img src="https://t3.ftcdn.net/jpg/02/60/12/88/360_F_260128861_Q2ttKHoVw2VrmvItxyCVBnEyM1852MoJ.jpg" 
        alt="Food and cooking" 
        style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-top: 20px;">
   <p style="font-size: 0.95em; color: gray;">
