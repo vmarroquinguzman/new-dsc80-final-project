@@ -2,10 +2,20 @@
 layout: home
 ---
 
+<div style="text-align: center; padding: 40px 0;">
+  <h1 style="font-size: 2.5em; font-weight: bold;">
+    🍳 Cooking Time and Recipe Ratings
+  </h1>
+  <p style="font-size: 1.2em; color: gray;">
+    Does spending more time in the kitchen actually result in better food?
+  </p>
+  <p style="font-size: 0.95em; color: gray;">
+    By <strong>Vanessa Marroquin-Guzman</strong> · DSC 80 · UC San Diego
+  </p>
+</div>
+
+---
 This website explores the relationship between cooking time and the mean recipe rating.
-
-
-
 
 
 
@@ -222,7 +232,7 @@ Significance Level: 0.05.
         frameborder="0">
 </iframe>
 
-###Results and Conclusion###
+### Results and Conclusion ###
 After running a permutation test with 1,000 iterations, I obtained the following results:
 RMSE for Short Recipes: 0.3324.
 RMSE for Long Recipes: 0.3780.
