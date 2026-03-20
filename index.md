@@ -8,6 +8,7 @@ layout: home
   </h1>
   <p style="font-size: 1.2em; color: gray;">
     Does spending more time in the kitchen actually result in better food?
+    This website explores the relationship between cooking time and the mean recipe rating.
   </p>
   <p style="font-size: 0.95em; color: gray;">
     By <strong>Vanessa Marroquin-Guzman</strong> · DSC 80 · UC San Diego
@@ -15,9 +16,6 @@ layout: home
 </div>
 
 ---
-
-
-This website explores the relationship between cooking time and the mean recipe rating.
 
 
 
