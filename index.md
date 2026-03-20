@@ -3,24 +3,22 @@ layout: home
 ---
 
 <div style="text-align: center; padding: 40px 0;">
-  <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=900" 
-       alt="Food and cooking" 
-       style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px;">
   <h1 style="font-size: 2.5em; font-weight: bold; margin-top: 20px;">
     🍳 Cooking Time and Recipe Ratings
   </h1>
   <p style="font-size: 1.2em; color: gray;">
     Does spending more time in the kitchen actually result in better food?
-    This website explores the relationship between cooking time and the mean recipe rating.
   </p>
+  <img src="[https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=900](https://media.istockphoto.com/id/1266248987/photo/home-taco-party-with-tortillas-tomato-salsa-and-peoples-hands.jpg?s=612x612&w=0&k=20&c=91O90mRePfaosNffZvBbS37-RP3hU2xg29nDAM_959A=)" 
+       alt="Food and cooking" 
+       style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-top: 20px;">
   <p style="font-size: 0.95em; color: gray;">
     By <strong>Vanessa Marroquin-Guzman</strong> · DSC 80 · UC San Diego
   </p>
+  
 </div>
 
 ---
-
-
 
 ## Introduction
 
