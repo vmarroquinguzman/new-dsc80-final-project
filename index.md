@@ -84,6 +84,29 @@ To prepare the Food.com dataset for an investigation into cooking times and rati
 
 ## Assessment of Missingness
 
+**MNAR Analysis**: One of the columns that I believe is MNAR is the `rating` because the probability of that value being missing is related to the rating value itself. Users who thought the recipe was mediocre or thought the recipe was nothing special would be less likely to leave a review compared to users who either loved or hated the recipe. Additionally, time-consuming or very difficult recipes may go unrated simply because fewer people are attempting those recipes and even fewer would go and leave a review. Addintional data I would need to make the missingness MAR is the time since the recipe was released because typically newer recipes have less rating simply because less time has passed since release.
+
+To potentially transition the missingness of `rating` from MNAR to MAR, I would want obtain the **time since the recipe was released** which would be the `submitted` column. Newer recipes might have fewer ratings simply because they have had less exposure time, and accounting for this facotr could help explain the missingness of `rating` through other observed variables.
+
+### Missingness Dependency
+To further investigate the missingess of `rating`, I performed a permutation test using the fast-permutation method to see if its missingness depends on other columns in the dataset.
+1. **DOES Depend:** `n_steps`
+- **Null Hypothesis:** The Distribution of `n_steps` is the same whether or not the `rating` is missing.
+- **Alternative Hypothesis:** The distribution of `n_steps` is different when the `rating` is missing compared to when it is not.
+- **Test Statistic:** Absolute difference in group means
+- **Significance Level:** 0.05
+- ADD GRAPH
+  **Result:** With the observe statistic of 1.3390 and a p-value of 0.00, I reject te null hypothesis. The missingness of `rating` **does not** on the number of steps in a recipe. We can conclude that the complexity of a recipe as measured by steps influences whether or not a user provides a rating.
+
+2. **Does NOT Depend:** `minutes`
+- **Null Hypothesis:** The distribution of minutes is the same whether or not the rating is missing
+- **Alternative Hypothesis:** The distribution of minutes is different when the rating is missing compared to when it is not
+- **Test Statistic:** Absolute difference in group means
+- **Significance Level:** 0.05
+- ADD GRAPH
+- **Result:** With an observed statistic of 51.4620 and a p-value of 0.1170, I fail to reject the null hypothesis. The missingness of rating does not depend on the cooking time in minutes. At a 5% significance level, there is no evidence that the length of time a recipe takes to prepare affects the likelihood of it being rated
+  
+
 ## Hypothesis Testing
 
 ## Baseline Model
