@@ -9,13 +9,12 @@ layout: home
   <p style="font-size: 1.2em; color: gray;">
     Does spending more time in the kitchen actually result in better food?
   </p>
-  <img src="https://t3.ftcdn.net/jpg/02/60/12/88/360_F_260128861_Q2ttKHoVw2VrmvItxyCVBnEyM1852MoJ.jpg" 
-       alt="Food and cooking" 
-       style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-top: 20px;">
-  <p style="font-size: 0.95em; color: gray;">
+    <p style="font-size: 0.95em; color: gray;">
     By <strong>Vanessa Marroquin-Guzman</strong> · DSC 80 · UC San Diego
   </p>
-  
+  <img src="https://t3.ftcdn.net/jpg/02/60/12/88/360_F_260128861_Q2ttKHoVw2VrmvItxyCVBnEyM1852MoJ.jpg" 
+       alt="Food and cooking" 
+       style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; margin-top: 20px;">  
 </div>
 
 ---
