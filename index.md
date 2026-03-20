@@ -116,7 +116,13 @@ To further investigate the missingess of `rating`, I performed a permutation tes
 - **Alternative Hypothesis:** The distribution of `n_steps` is different when the `rating` is missing compared to when it is not.
 - **Test Statistic:** Absolute difference in group means
 - **Significance Level:** 0.05
-- ADD GRAPH
+
+<iframe src="missingness_n_steps.html" 
+        width="800" 
+        height="450" 
+        frameborder="0">
+</iframe>
+
   **Result:** With the observe statistic of 1.3390 and a p-value of 0.00, I reject te null hypothesis. The missingness of `rating` **does not** on the number of steps in a recipe. We can conclude that the complexity of a recipe as measured by steps influences whether or not a user provides a rating.
 
 
@@ -126,7 +132,14 @@ To further investigate the missingess of `rating`, I performed a permutation tes
 - **Alternative Hypothesis:** The distribution of minutes is different when the rating is missing compared to when it is not
 - **Test Statistic:** Absolute difference in group means
 - **Significance Level:** 0.05
-- ADD GRAPH
+
+<iframe src="missingness_minutes.html" 
+        width="800" 
+        height="450" 
+        frameborder="0">
+</iframe>
+
+
 - **Result:** With an observed statistic of 51.4620 and a p-value of 0.1170, I fail to reject the null hypothesis. The missingness of rating does not depend on the cooking time in minutes. At a 5% significance level, there is no evidence that the length of time a recipe takes to prepare affects the likelihood of it being rated
 
 
@@ -134,10 +147,18 @@ To further investigate the missingess of `rating`, I performed a permutation tes
 ## Hypothesis Testing
 
 **Null Hypothesis:** The average rating for short recipes (≤30 minutes) and long recipes (>30 minutes) come from the same distribution. Any observed difference in means is due to random chance. **Alternative Hypothesis:** Short recipes (≤30 minutes) receive higher ratings than long recipes on average.
-. Test Statistic: The difference in mean rating (Short - Long)
-. Significance Level: 0.05
+. **Test Statistic:** The difference in mean rating (Short - Long)
+. **Significance Level:** 0.05
 
-I choose 30 minutes as the dividing line because it is a standard benchmark for a "quick" meal
+I choose 30 minutes as the dividing line because it is a standard benchmark for a "quick" meal. A permutation test was the most appropriate method because it allows us to compare the distribution of two groups without assuming that the rating follow a specific shape. The **difference in means** directly answers whether one group of recipes is, on average, "better" then the others according to user feedback. 
+
+<iframe src="hypothesis_test.html" 
+        width="800" 
+        height="450" 
+        frameborder="0">
+</iframe>
+
+The result after running 3,000 permutations, the test produced a Observed Difference of 0.0339 and a p-value of 0.0. Since the p-value is less than 0.05, I reject the null hypothesis. This result suggest that the difference in ratings between short and long recipes is statistically significant and not likely due to random chance alone. The observed difference indicates that **short recipes tend to have slightly higher average ratings**, while we cannot conclude that shorter cooking times _cause_ higer ratings, this provides evidence that you do not need to spend hours in the kitchen to achieve a highly-rated, satisfying meal.
 ## Baseline Model
 
 ## Final Model
