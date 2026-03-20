@@ -63,22 +63,36 @@ To explore the relationship between time investment for a recipe and the rating 
 
 To prepare the Food.com dataset for an investigation into cooking times and ratings, I performed several key cleaning steps to ensure the data was accurate and usable:
 
-1. Merged Recipes and Ratings: I performed a left merge of the recipes dataset with the ratings dataset. This ensures that every recipe is kept in the final DataFrame, even those that have not yet received a rating, which is crucial for maintaining an unbiased look at all available cooking options.
+1. **Merged Recipes and Ratings:** I performed a left merge of the recipes dataset with the ratings dataset. This ensures that every recipe is kept in the final DataFrame, even those that have not yet received a rating, which is crucial for maintaining an unbiased look at all available cooking options.
 
-2. Handled "Zero" Ratings: I replaced all ratings of 0 with np.nan. Users can leave a review without a star rating, which the system records as a 0. Since the actual scale is 1–5, these 0s do not represent "zero stars" but rather missing data. Treating them as NaN prevents them from artificially dragging down the average ratings of recipes
+2. **Handled "Zero" Ratings:** I replaced all ratings of 0 with np.nan. Users can leave a review without a star rating, which the system records as a 0. Since the actual scale is 1–5, these 0s do not represent "zero stars" but rather missing data. Treating them as NaN prevents them from artificially dragging down the average ratings of recipes
 
-3. Calculated Average Ratings: I calculated the mean and median rating for each unique recipe and merged these back into the main dataset. This allows me to analyze each recipe’s overall "quality" as a single data point.
+3. **Calculated Average Ratings:** I calculated the mean and median rating for each unique recipe and merged these back into the main dataset. This allows me to analyze each recipe’s overall "quality" as a single data point.
    
-4. Extracted Nutrition Data: The nutrition column originally contained strings that looked like lists (e.g., "[150.2, 5.0, ...]"). I processed these strings into individual numerical columns: calories, total_fat, sugar, sodium, protein, saturated_fat, and carbohydrates.
+4. **Extracted Nutrition Data:** The nutrition column originally contained strings that looked like lists (e.g., "[150.2, 5.0, ...]"). I processed these strings into individual numerical columns: calories, total_fat, sugar, sodium, protein, saturated_fat, and carbohydrates.
 
-5. Removed Outliers: I filtered out the top 1% of entries for minutes and all nutrition columns. In a real-world setting, recipes claiming to take thousands of minutes or containing impossible amounts of sugar are likely data entry errors that would skew the results of the "average" quick meal.
+5. **Removed Outliers:** I filtered out the top 1% of entries for minutes and all nutrition columns. In a real-world setting, recipes claiming to take thousands of minutes or containing impossible amounts of sugar are likely data entry errors that would skew the results of the "average" quick meal.
 
-**OUR CLEAN DF HAS _ ROWS AND _ COLUMNS** DO THIS AND ADD DF
+After merging the `recipes` and `interactions` datasets and performing data cleaning steps the final dataset contains **216,467 rows and 27 columns**. There where more columns (27 in total) but I just decided to keep the most relevant one to my question.
+
+| name                                 |   minutes |   n_steps |   n_ingredients |   calories |   rating |   mean_rating | time_category   |
+|:-------------------------------------|----------:|----------:|----------------:|-----------:|---------:|--------------:|:----------------|
+| 1 brownies in the world    best ever |        40 |        10 |               9 |      138.4 |        4 |             4 | 31-60           |
+| 1 in canada chocolate chip cookies   |        45 |        12 |              11 |      595.1 |        5 |             5 | 31-60           |
+| 412 broccoli casserole               |        40 |         6 |               9 |      194.8 |        5 |             5 | 31-60           |
+| 412 broccoli casserole               |        40 |         6 |               9 |      194.8 |        5 |             5 | 31-60           |
+| 412 broccoli casserole               |        40 |         6 |               9 |      194.8 |        5 |             5 | 31-60           |
+| 412 broccoli casserole               |        40 |         6 |               9 |      194.8 |        5 |             5 | 31-60           |
+| millionaire pound cake               |       120 |         7 |               7 |      878.3 |        5 |             5 | 61-120          |
+| 2000 meatloaf                        |        90 |        17 |              13 |      267   |        5 |             5 | 61-120          |
+| 2000 meatloaf                        |        90 |        17 |              13 |      267   |        5 |             5 | 61-120          |
+| 5 tacos                              |        20 |         5 |               9 |      249.4 |        4 |             4 | 16-30           |
 
 
 
 **Mean Rating Distribution**
-For univariate analysis graph I desicded to do a distribution of `mean_ratings`....
+For my univariate analysis, I chose to plot the distribution of `mean_rating` because it is the target variable for my prediction model. Understanding its distribution is essential before building any model. If ratings are heavily skewed or clustered, it affects how we interpret model performance. As shown below, the distribution is heavily left-skewed with most recipes rated between 4 and 5 stars, meaning users on Food.com tend to rate recipes positively overall.
+
 <iframe src="mean_rating_distribution.html" 
         width="800" 
         height="450" 
@@ -86,10 +100,9 @@ For univariate analysis graph I desicded to do a distribution of `mean_ratings`.
 </iframe>
 
 
-
-
 **Time Category Box Plot**
-For the bivariate analysis graph I decided to do a box plot of `time_categories`.....
+For the bivariate analysis graph I decided to do a box plot of For my bivariate analysis, I chose to plot `mean_rating` against `time_category` because my central question is whether cooking time affects recipe ratings. A box plot is ideal here since it shows the spread, median, and outliers of ratings within each time group simultaneously, making it easy to compare distributions across categories. The plot reveals that shorter recipes (0-15 minutes) tend to have a slightly higher median rating than longer recipes (120+ minutes), which directly motivates the hypothesis test in the next section.
+
 <iframe src="box_plot_fig2.html" 
         width="800" 
         height="450" 
