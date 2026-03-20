@@ -196,6 +196,38 @@ To find the optimal configuration for my Random Forest, I used `GridSearchCV` wi
 - `n_estimators`: To determine the minimum number of trees needed to provide stable and accurate predictions.
 The search identified the best parameters as: `{'max_depth': None, 'n_estimators': 200}`
 
+<iframe src="feature_importance.html" 
+        width="800" 
+        height="450" 
+        frameborder="0">
+</iframe>
+
 The final model showed substantial improvement over the baseline, improving the test RMSE by 0.1385 from 0.4961 to 0.3576. But, most importantly, R^2 **score** increased from nearly zero in the baseline to **0.4767** in the final model. Now the model can explain nearly **48% of the variance** in recipe ratings. 
 
+
 ## Fairness Analysis
+
+To conclude my investigation, I performed a fairness analysis to determine if my final model performs differently for "short" recipes compared to "long" recipes. In our fast-paced world, it is important to know if a model predicting recipe quality is just as accurate for quick, 30-minute meals as it is for more time-consuming dishes.
+Group X: Short recipes (cooking time ≤30 minutes).
+Group Y: Long recipes (cooking time >30 minutes).
+Evaluation Metric: Root Mean Squared Error (RMSE).
+Null Hypothesis: The model is fair. Its RMSE for short recipes and long recipes are roughly the same, and any differences are due to random chance.
+Alternative Hypothesis: The model is unfair. Its RMSE for short recipes is significantly different from its RMSE for long recipes.
+Test Statistic: The difference in RMSE (Short - Long).
+Significance Level: 0.05.
+
+<iframe src="fairness_analysis.html" 
+        width="800" 
+        height="450" 
+        frameborder="0">
+</iframe>
+
+###Results and Conclusion###
+After running a permutation test with 1,000 iterations, I obtained the following results:
+RMSE for Short Recipes: 0.3324.
+RMSE for Long Recipes: 0.3780.
+Observed Difference: -0.0456.
+P-value: 0.0000.
+
+Since the p-value is 0.0000, which is less than my significance level of 0.05, I reject the null hypothesis. This result suggests that my model is unfair across these two groups. Because the observed difference is negative, the RMSE for short recipes is lower than the RMSE for long recipes. This indicates that the model is actually more accurate at predicting the ratings of short recipes than it is for longer ones. While the model is generally effective, users should be aware that its predictions for more complex, time-consuming recipes may be slightly less reliable than its predictions for quick meals.
+
