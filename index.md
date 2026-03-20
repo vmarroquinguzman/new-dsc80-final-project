@@ -28,6 +28,8 @@ with 12 columns recording the following information:
 | `ingredients` | Text for recipe ingredients |
 | `n_ingredients` | Number of ingredients in recipe |
 
+
+
 The second dataset, `interactions`, contains 731,927 rows and 5 columns where each row contains 
 a review from a user on a specific recipe. The columns it includes are:
 
@@ -40,6 +42,9 @@ a review from a user on a specific recipe. The columns it includes are:
 | `review` | Review text |
 
 To explore the relationship between time investment for a recipe and the rating the columns that are most relevant are `minutes`: The total number of minutes required to prepare the meal, serving as our primary measure of "cooking time" and `n_steps`: The number of steps in a recipe, which provides additional context on the complexity and effort required. Also we created a new column `mean_rating` which is the mean rating of every unique recipes, because most of the recipes have multiple ratings. I also created a column called, `time_category` which categorizes recipes depending on the time it takes to prepare the recipe: '0-15', '16-30', '31-60', '61-120', '120+'. 
+
+
+
 
 ## Data Cleaning and Exploratory Data Analysis
 
@@ -55,14 +60,23 @@ To prepare the Food.com dataset for an investigation into cooking times and rati
 
 5. Removed Outliers: I filtered out the top 1% of entries for minutes and all nutrition columns. In a real-world setting, recipes claiming to take thousands of minutes or containing impossible amounts of sugar are likely data entry errors that would skew the results of the "average" quick meal.
 
+**OUR CLEAN DF HAS _ ROWS AND _ COLUMNS** DO THIS AND ADD DF
+
+
+
 **Mean Rating Distribution**
+For univariate analysis graph I desicded to do a distribution of `mean_ratings`....
 <iframe src="mean_rating_distribution.html" 
         width="800" 
         height="450" 
         frameborder="0">
 </iframe>
 
+
+
+
 **Time Category Box Plot**
+For the bivariate analysis graph I decided to do a box plot of `time_categories`.....
 <iframe src="box_plot_fig2.html" 
         width="800" 
         height="450" 
@@ -70,7 +84,9 @@ To prepare the Food.com dataset for an investigation into cooking times and rati
 </iframe>
 
 
-**Pivot Table**: The pivot table below shows the average rating, median rating, average calories, and count of recipies for each time category. Several interesting patterns I noticed was for shorter recipes (0 - 15 minutes) tend to receive higher ratings mean rating (4.71) while the longest recipes (120+ minutes) receive the lowest rating (4.62). This suggest a slight negative relationship between cooking time and rating. Secondly, average calories steadly increase with cooking time, this makes sense because longer recipes tend to be more elaborate meal. Finally, the 31-60 minute category contains the most recipes (69,381), shaped like an asymmetric bell curve. This indicates that the most common cooking time range is between (31-60) on Food.com.
+
+**Pivot Table**
+The pivot table below shows the average rating, median rating, average calories, and count of recipies for each time category. Several interesting patterns I noticed was for shorter recipes (0 - 15 minutes) tend to receive higher ratings mean rating (4.71) while the longest recipes (120+ minutes) receive the lowest rating (4.62). This suggest a slight negative relationship between cooking time and rating. Secondly, average calories steadly increase with cooking time, this makes sense because longer recipes tend to be more elaborate meal. Finally, the 31-60 minute category contains the most recipes (69,381), shaped like an asymmetric bell curve. This indicates that the most common cooking time range is between (31-60) on Food.com.
 
 | time_category   |   mean_rating |   median_rating |   avg_calories |   count |
 |:----------------|--------------:|----------------:|---------------:|--------:|
@@ -82,13 +98,18 @@ To prepare the Food.com dataset for an investigation into cooking times and rati
 
 
 
+
+
 ## Assessment of Missingness
 
 **MNAR Analysis**: One of the columns that I believe is MNAR is the `rating` because the probability of that value being missing is related to the rating value itself. Users who thought the recipe was mediocre or thought the recipe was nothing special would be less likely to leave a review compared to users who either loved or hated the recipe. Additionally, time-consuming or very difficult recipes may go unrated simply because fewer people are attempting those recipes and even fewer would go and leave a review. Addintional data I would need to make the missingness MAR is the time since the recipe was released because typically newer recipes have less rating simply because less time has passed since release.
 
 To potentially transition the missingness of `rating` from MNAR to MAR, I would want obtain the **time since the recipe was released** which would be the `submitted` column. Newer recipes might have fewer ratings simply because they have had less exposure time, and accounting for this facotr could help explain the missingness of `rating` through other observed variables.
 
+
+
 ### Missingness Dependency
+
 To further investigate the missingess of `rating`, I performed a permutation test using the fast-permutation method to see if its missingness depends on other columns in the dataset.
 1. **DOES Depend:** `n_steps`
 - **Null Hypothesis:** The Distribution of `n_steps` is the same whether or not the `rating` is missing.
@@ -98,6 +119,8 @@ To further investigate the missingess of `rating`, I performed a permutation tes
 - ADD GRAPH
   **Result:** With the observe statistic of 1.3390 and a p-value of 0.00, I reject te null hypothesis. The missingness of `rating` **does not** on the number of steps in a recipe. We can conclude that the complexity of a recipe as measured by steps influences whether or not a user provides a rating.
 
+
+
 2. **Does NOT Depend:** `minutes`
 - **Null Hypothesis:** The distribution of minutes is the same whether or not the rating is missing
 - **Alternative Hypothesis:** The distribution of minutes is different when the rating is missing compared to when it is not
@@ -105,10 +128,16 @@ To further investigate the missingess of `rating`, I performed a permutation tes
 - **Significance Level:** 0.05
 - ADD GRAPH
 - **Result:** With an observed statistic of 51.4620 and a p-value of 0.1170, I fail to reject the null hypothesis. The missingness of rating does not depend on the cooking time in minutes. At a 5% significance level, there is no evidence that the length of time a recipe takes to prepare affects the likelihood of it being rated
-  
+
+
 
 ## Hypothesis Testing
 
+**Null Hypothesis:** The average rating for short recipes (≤30 minutes) and long recipes (>30 minutes) come from the same distribution. Any observed difference in means is due to random chance. **Alternative Hypothesis:** Short recipes (≤30 minutes) receive higher ratings than long recipes on average.
+. Test Statistic: The difference in mean rating (Short - Long)
+. Significance Level: 0.05
+
+I choose 30 minutes as the dividing line because it is a standard benchmark for a "quick" meal
 ## Baseline Model
 
 ## Final Model
