@@ -15,6 +15,8 @@ layout: home
 </div>
 
 ---
+
+
 This website explores the relationship between cooking time and the mean recipe rating.
 
 
