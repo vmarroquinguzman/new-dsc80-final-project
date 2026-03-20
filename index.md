@@ -3,7 +3,10 @@ layout: home
 ---
 
 <div style="text-align: center; padding: 40px 0;">
-  <h1 style="font-size: 2.5em; font-weight: bold;">
+  <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=900" 
+       alt="Food and cooking" 
+       style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px;">
+  <h1 style="font-size: 2.5em; font-weight: bold; margin-top: 20px;">
     🍳 Cooking Time and Recipe Ratings
   </h1>
   <p style="font-size: 1.2em; color: gray;">
@@ -196,7 +199,7 @@ In this stage of the project, I developed a baseline regression model to predict
 
 The features I choose are all **quantitative** and since they exist on very different scales, I applied a `StandardScaler`. This transformation centers the data around a mean of zero with a standard deviation of one, ensuring that no single feature dominates the model simply because of it's magnitude.
 
-###Performance###
+### Performance ###
 The model's performance was evaluated using **Root Mean Squared Error (RMSE)** and the R^2 score. As a result the Training RMSE was 0.4978 and R^2 was 0.0002, while the test RMSE was 0.4961 and R^2 was 0.0001. Currently, showing that this baseline model is **not very efficient** at predicting recipe ratings. While the RSME is relatively low (predictions are on average, within 0.5 stars of actual rating), the R^2 **score is near zero**. Such a low R^2 indicates that this model explains almost none of the variance in ratings. Since mean ratings are tightly clustered near 4-5 stars, it makes it difficult for simple linear regression with basic recipe attributes to predict a meaningful differences.
 
 This suggest that basic metrics like cooking time and step count are not primary drivers of user satsfaction. To improce the model for the step, I will need to engineer more complex features or non-linear relationships that better capture why people love certain recipes.
@@ -212,7 +215,7 @@ For the Final Model I transitioned from simple Linear Regression to a **Random F
 
 Finally organizing them into into a `ColumnTransformer` and then a single `Pipeline`.
 
-###Hyperparameter Tuning###
+### Hyperparameter Tuning ###
 To find the optimal configuration for my Random Forest, I used `GridSearchCV` with 5-fold cross-validation. I specifically chose to tune the following hyperparameters:
 
 - `max_depth`: To balance the model between underfitting (too shallow) and overfitting (too deep).
@@ -231,13 +234,13 @@ The final model showed substantial improvement over the baseline, improving the 
 ## Fairness Analysis
 
 To conclude my investigation, I performed a fairness analysis to determine if my final model performs differently for "short" recipes compared to "long" recipes. In our fast-paced world, it is important to know if a model predicting recipe quality is just as accurate for quick, 30-minute meals as it is for more time-consuming dishes.
-Group X: Short recipes (cooking time ≤30 minutes).
-Group Y: Long recipes (cooking time >30 minutes).
-Evaluation Metric: Root Mean Squared Error (RMSE).
-Null Hypothesis: The model is fair. Its RMSE for short recipes and long recipes are roughly the same, and any differences are due to random chance.
-Alternative Hypothesis: The model is unfair. Its RMSE for short recipes is significantly different from its RMSE for long recipes.
-Test Statistic: The difference in RMSE (Short - Long).
-Significance Level: 0.05.
+- Group X: Short recipes (cooking time ≤30 minutes).
+- Group Y: Long recipes (cooking time >30 minutes).
+- Evaluation Metric: Root Mean Squared Error (RMSE).
+- Null Hypothesis: The model is fair. Its RMSE for short recipes and long recipes are roughly the same, and any differences are due to random chance.
+- Alternative Hypothesis: The model is unfair. Its RMSE for short recipes is significantly different from its RMSE for long recipes.
+- Test Statistic: The difference in RMSE (Short - Long).
+- Significance Level: 0.05.
 
 <iframe src="fairness_analysis.html" 
         width="800" 
