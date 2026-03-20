@@ -21,7 +21,7 @@ layout: home
 
 ## Introduction
 
-In today’s fast-paced world, time is our most valuable asset. With the convenience of eating out and food delivery services just a tap away, the traditional act of home cooking often feels like a luxury we can't afford. In such a busy and stressful environment, our bodies need high-quality fuel to keep us going, yet we frequently find ourselves choosing between a long, complex recipe and the ease of a quick meal. This often raises a dilemma: are we able to create short efficient meals that are just as good as the ones that take hours to make? In this project we will be exploring the relationship between cooking time and recipe's rating to determine if efficiency in the kitchen comes at the cost of a quality meal. This project explores a dataset of recipes and ratings containing data since 2008 from https://www.food.com/. The data was originally scraped and used for a paper on recommender systems.
+In today’s fast-paced world, time is our most valuable asset. With the convenience of eating out and food delivery services just a tap away, the traditional act of home cooking often feels like a luxury we can't afford. In such a busy and stressful environment, our bodies need high-quality fuel to keep us going, yet we frequently find ourselves choosing between a long, complex recipe and the ease of a quick meal. This often raises a dilemma, are we able to create short efficient meals that are just as good as the ones that take hours to make? In this project we will be exploring the relationship between cooking time and recipe's rating to determine if efficiency in the kitchen comes at the cost of a quality meal. This project explores a dataset of recipes and ratings containing data since 2008 from https://www.food.com/. The data was originally scraped and used for a paper on recommender systems.
 
 The first dataset, `recipes`, contains 83,782 rows, 1 row for every unique recipe, 
 with 12 columns recording the following information:
@@ -73,7 +73,7 @@ To prepare the Food.com dataset for an investigation into cooking times and rati
 
 5. **Removed Outliers:** I filtered out the top 1% of entries for minutes and all nutrition columns. In a real-world setting, recipes claiming to take thousands of minutes or containing impossible amounts of sugar are likely data entry errors that would skew the results of the "average" quick meal.
 
-After merging the `recipes` and `interactions` datasets and performing data cleaning steps the final dataset contains **216,467 rows and 27 columns**. There where more columns (27 in total) but I just decided to keep the most relevant one to my question.
+After merging the `recipes` and `interactions` datasets and performing data cleaning steps the final dataset contains **216,467 rows and 8 columns**. There where more columns (27 in total) but I just decided to keep the most relevant one to my question.
 
 | name                                 |   minutes |   n_steps |   n_ingredients |   calories |   rating |   mean_rating | time_category   |
 |:-------------------------------------|----------:|----------:|----------------:|-----------:|---------:|--------------:|:----------------|
@@ -131,7 +131,7 @@ The pivot table below shows the average rating, median rating, average calories,
 
 **MNAR Analysis**: One of the columns that I believe is MNAR is the `rating` because the probability of that value being missing is related to the rating value itself. Users who thought the recipe was mediocre or thought the recipe was nothing special would be less likely to leave a review compared to users who either loved or hated the recipe. Additionally, time-consuming or very difficult recipes may go unrated simply because fewer people are attempting those recipes and even fewer would go and leave a review. Addintional data I would need to make the missingness MAR is the time since the recipe was released because typically newer recipes have less rating simply because less time has passed since release.
 
-To potentially transition the missingness of `rating` from MNAR to MAR, I would want obtain the **time since the recipe was released** which would be the `submitted` column. Newer recipes might have fewer ratings simply because they have had less exposure time, and accounting for this facotr could help explain the missingness of `rating` through other observed variables.
+To potentially transition the missingness of `rating` from MNAR to MAR, I would want obtain the **time since the recipe was released** which would be the `submitted` column. Newer recipes might have fewer ratings simply because they have had less exposure time, and accounting for this factor could help explain the missingness of `rating` through other observed variables.
 
 
 
@@ -187,7 +187,7 @@ I choose 30 minutes as the dividing line because it is a standard benchmark for 
         frameborder="0">
 </iframe>
 
-The result after running 3,000 permutations, the test produced a Observed Difference of 0.0339 and a p-value of 0.0. Since the p-value is less than 0.05, I reject the null hypothesis. This result suggest that the difference in ratings between short and long recipes is statistically significant and not likely due to random chance alone. The observed difference indicates that **short recipes tend to have slightly higher average ratings**, while we cannot conclude that shorter cooking times _cause_ higer ratings, this provides evidence that you do not need to spend hours in the kitchen to achieve a highly-rated, satisfying meal.
+The result after running 3,000 permutations, the test produced a Observed Difference of 0.0339 and a p-value of 0.0. Since the p-value is less than 0.05, I reject the null hypothesis. This result suggest that the difference in ratings between short and long recipes is statistically significant and not likely due to random chance alone. The observed difference indicates that **short recipes tend to have slightly higher average ratings**, while we cannot conclude that shorter cooking times _cause_ higher ratings, this provides evidence that you do not need to spend hours in the kitchen to achieve a highly-rated, satisfying meal.
 
 
 ## Baseline Model
@@ -199,15 +199,15 @@ The features I choose are all **quantitative** and since they exist on very diff
 ### Performance ###
 The model's performance was evaluated using **Root Mean Squared Error (RMSE)** and the R^2 score. As a result the Training RMSE was 0.4978 and R^2 was 0.0002, while the test RMSE was 0.4961 and R^2 was 0.0001. Currently, showing that this baseline model is **not very efficient** at predicting recipe ratings. While the RSME is relatively low (predictions are on average, within 0.5 stars of actual rating), the R^2 **score is near zero**. Such a low R^2 indicates that this model explains almost none of the variance in ratings. Since mean ratings are tightly clustered near 4-5 stars, it makes it difficult for simple linear regression with basic recipe attributes to predict a meaningful differences.
 
-This suggest that basic metrics like cooking time and step count are not primary drivers of user satsfaction. To improce the model for the step, I will need to engineer more complex features or non-linear relationships that better capture why people love certain recipes.
+This suggest that basic metrics like cooking time and step count are not primary drivers of user satsfaction. To improve the model for the step, I will need to engineer more complex features or non-linear relationships that better capture why people love certain recipes.
 
 ## Final Model
 
 For the Final Model I transitioned from simple Linear Regression to a **Random Forest Regressor**. This algorithm is better suited for capturing non-linear relationship between recipe characteristics and user ratings. I engineered **three new features** to better represent the "complexity" and "feel" of a recipe: 
 
-1. Complexity Score (`n_steps` * `n_ingredients`): I created an interaction feature by multiplying the number of steps by the number of ingredients. A recipe with many steps and many ingredients is fundamentally more complex than one that has only one of those traits. This captures the synergy between these two variables.
-2. Log-Transformed Minutes: Since cooking times are heavily **right-skewed** (most recipes are short, but a few take a very long time), I used a `FunctionTransformer` to apply a log transformation. This compresses the long tail of the data, allowing the model to treat proportional differences (e.g., 30 vs. 60 minutes) more equally.
-3. Quantile-Transformed Calories: Nutritional data is often skewed by extreme outliers. I used a    `QuantileTransformer` to map the distribution of calories to a normal distribution. This prevents the model from being distorted by recipes with unusually high caloric counts.
+1. **Complexity Score (`n_steps` * `n_ingredients`):** I created an interaction feature by multiplying the number of steps by the number of ingredients. A recipe with many steps and many ingredients is fundamentally more complex than one that has only one of those traits. This captures the synergy between these two variables.
+2. **Log-Transformed Minutes:** Since cooking times are heavily **right-skewed** (most recipes are short, but a few take a very long time), I used a `FunctionTransformer` to apply a log transformation. This compresses the long tail of the data, allowing the model to treat proportional differences (e.g., 30 vs. 60 minutes) more equally.
+3. **Quantile-Transformed Calories:** Nutritional data is often skewed by extreme outliers. I used a    `QuantileTransformer` to map the distribution of calories to a normal distribution. This prevents the model from being distorted by recipes with unusually high caloric counts.
 4. For remaining quantitative features, `n_steps`, `n_indgredients`, `complexity_score` I used `StandardScaler`.
 
 Finally organizing them into into a `ColumnTransformer` and then a single `Pipeline`.
