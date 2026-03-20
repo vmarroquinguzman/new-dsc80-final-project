@@ -62,12 +62,13 @@ To prepare the Food.com dataset for an investigation into cooking times and rati
         frameborder="0">
 </iframe>
 
-**Time Category Box Plot **
+**Time Category Box Plot**
 <iframe src="box_plot_fig2.html" 
         width="800" 
         height="450" 
         frameborder="0">
 </iframe>
+
 
 **Pivot Table**: The pivot table below shows the average rating, median rating, average calories, and count of recipies for each time category. Several interesting patterns I noticed was for shorter recipes (0 - 15 minutes) tend to receive higher ratings mean rating (4.71) while the longest recipes (120+ minutes) receive the lowest rating (4.62). This suggest a slight negative relationship between cooking time and rating. Secondly, average calories steadly increase with cooking time, this makes sense because longer recipes tend to be more elaborate meal. Finally, the 31-60 minute category contains the most recipes (69,381), shaped like an asymmetric bell curve. This indicates that the most common cooking time range is between (31-60) on Food.com.
 
