@@ -2,9 +2,12 @@
 layout: home
 ---
 
-# Investigating the Relationship Between Cooking Time and Recipe Ratings
-
 This website explores the relationship between cooking time and the mean recipe rating.
+
+
+
+
+
 
 ## Introduction
 
@@ -41,7 +44,7 @@ a review from a user on a specific recipe. The columns it includes are:
 | `rating` | Rating given |
 | `review` | Review text |
 
-To explore the relationship between time investment for a recipe and the rating the columns that are most relevant are `minutes`: The total number of minutes required to prepare the meal, serving as our primary measure of "cooking time" and `n_steps`: The number of steps in a recipe, which provides additional context on the complexity and effort required. Also we created a new column `mean_rating` which is the mean rating of every unique recipes, because most of the recipes have multiple ratings. I also created a column called, `time_category` which categorizes recipes depending on the time it takes to prepare the recipe: '0-15', '16-30', '31-60', '61-120', '120+'. 
+To explore the relationship between time investment for a recipe and the rating the columns that are most relevant are `minutes`: The total number of minutes required to prepare the meal, serving as our primary measure of "cooking time" and `n_steps`: The number of steps in a recipe, which provides additional context on the complexity and effort required. Also we created a new column `mean_rating` which is the mean rating of every unique recipes, because most of the recipes have multiple ratings. I also created a column called, `time_category` which categorizes recipes depending on the time it takes to prepare the recipe: ('0-15', '16-30', '31-60', '61-120', '120+'). 
 
 
 
@@ -86,6 +89,7 @@ For the bivariate analysis graph I decided to do a box plot of `time_categories`
 
 
 **Pivot Table**
+
 The pivot table below shows the average rating, median rating, average calories, and count of recipies for each time category. Several interesting patterns I noticed was for shorter recipes (0 - 15 minutes) tend to receive higher ratings mean rating (4.71) while the longest recipes (120+ minutes) receive the lowest rating (4.62). This suggest a slight negative relationship between cooking time and rating. Secondly, average calories steadly increase with cooking time, this makes sense because longer recipes tend to be more elaborate meal. Finally, the 31-60 minute category contains the most recipes (69,381), shaped like an asymmetric bell curve. This indicates that the most common cooking time range is between (31-60) on Food.com.
 
 | time_category   |   mean_rating |   median_rating |   avg_calories |   count |
@@ -146,9 +150,11 @@ To further investigate the missingess of `rating`, I performed a permutation tes
 
 ## Hypothesis Testing
 
-**Null Hypothesis:** The average rating for short recipes (≤30 minutes) and long recipes (>30 minutes) come from the same distribution. Any observed difference in means is due to random chance. **Alternative Hypothesis:** Short recipes (≤30 minutes) receive higher ratings than long recipes on average.
-. **Test Statistic:** The difference in mean rating (Short - Long)
-. **Significance Level:** 0.05
+**Null Hypothesis:** The average rating for short recipes (≤30 minutes) and long recipes (>30 minutes) come from the same distribution. Any observed difference in means is due to random chance. 
+
+**Alternative Hypothesis:** Short recipes (≤30 minutes) receive higher ratings than long recipes on average.
+- **Test Statistic:** The difference in mean rating (Short - Long)
+- **Significance Level:** 0.05
 
 I choose 30 minutes as the dividing line because it is a standard benchmark for a "quick" meal. A permutation test was the most appropriate method because it allows us to compare the distribution of two groups without assuming that the rating follow a specific shape. The **difference in means** directly answers whether one group of recipes is, on average, "better" then the others according to user feedback. 
 
@@ -159,8 +165,37 @@ I choose 30 minutes as the dividing line because it is a standard benchmark for 
 </iframe>
 
 The result after running 3,000 permutations, the test produced a Observed Difference of 0.0339 and a p-value of 0.0. Since the p-value is less than 0.05, I reject the null hypothesis. This result suggest that the difference in ratings between short and long recipes is statistically significant and not likely due to random chance alone. The observed difference indicates that **short recipes tend to have slightly higher average ratings**, while we cannot conclude that shorter cooking times _cause_ higer ratings, this provides evidence that you do not need to spend hours in the kitchen to achieve a highly-rated, satisfying meal.
+
+
 ## Baseline Model
 
+In this stage of the project, I developed a baseline regression model to predict the **average rating** of a recipe. I used a **Linear Regression** model implemented by sklearn and split the data by training set and saving 20% for test set. The features I decided to use for this model `n_steps`, `n_indgredients`, `minutes`, and `calories`. 
+
+The features I choose are all **quantitative** and since they exist on very different scales, I applied a `StandardScaler`. This transformation centers the data around a mean of zero with a standard deviation of one, ensuring that no single feature dominates the model simply because of it's magnitude.
+
+###Performance###
+The model's performance was evaluated using **Root Mean Squared Error (RMSE)** and the R^2 score. As a result the Training RMSE was 0.4978 and R^2 was 0.0002, while the test RMSE was 0.4961 and R^2 was 0.0001. Currently, showing that this baseline model is **not very efficient** at predicting recipe ratings. While the RSME is relatively low (predictions are on average, within 0.5 stars of actual rating), the R^2 **score is near zero**. Such a low R^2 indicates that this model explains almost none of the variance in ratings. Since mean ratings are tightly clustered near 4-5 stars, it makes it difficult for simple linear regression with basic recipe attributes to predict a meaningful differences.
+
+This suggest that basic metrics like cooking time and step count are not primary drivers of user satsfaction. To improce the model for the step, I will need to engineer more complex features or non-linear relationships that better capture why people love certain recipes.
+
 ## Final Model
+
+For the Final Model I transitioned from simple Linear Regression to a **Random Forest Regressor**. This algorithm is better suited for capturing non-linear relationship between recipe characteristics and user ratings. I engineered **three new features** to better represent the "complexity" and "feel" of a recipe: 
+
+1. Complexity Score (`n_steps` * `n_ingredients`): I created an interaction feature by multiplying the number of steps by the number of ingredients. A recipe with many steps and many ingredients is fundamentally more complex than one that has only one of those traits. This captures the synergy between these two variables.
+2. Log-Transformed Minutes: Since cooking times are heavily **right-skewed** (most recipes are short, but a few take a very long time), I used a `FunctionTransformer` to apply a log transformation. This compresses the long tail of the data, allowing the model to treat proportional differences (e.g., 30 vs. 60 minutes) more equally.
+3. Quantile-Transformed Calories: Nutritional data is often skewed by extreme outliers. I used a    `QuantileTransformer` to map the distribution of calories to a normal distribution. This prevents the model from being distorted by recipes with unusually high caloric counts.
+4. For remaining quantitative features, `n_steps`, `n_indgredients`, `complexity_score` I used `StandardScaler`.
+
+Finally organizing them into into a `ColumnTransformer` and then a single `Pipeline`.
+
+###Hyperparameter Tuning###
+To find the optimal configuration for my Random Forest, I used `GridSearchCV` with 5-fold cross-validation. I specifically chose to tune the following hyperparameters:
+
+- `max_depth`: To balance the model between underfitting (too shallow) and overfitting (too deep).
+- `n_estimators`: To determine the minimum number of trees needed to provide stable and accurate predictions.
+The search identified the best parameters as: `{'max_depth': None, 'n_estimators': 200}`
+
+The final model showed substantial improvement over the baseline, improving the test RMSE by 0.1385 from 0.4961 to 0.3576. But, most importantly, R^2 **score** increased from nearly zero in the baseline to **0.4767** in the final model. Now the model can explain nearly **48% of the variance** in recipe ratings. 
 
 ## Fairness Analysis
